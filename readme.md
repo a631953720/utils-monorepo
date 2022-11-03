@@ -14,6 +14,24 @@
   ![](./public/done.png)
 - 其他更多細節可以多參考原文件
 
+# Docker 部屬、執行範例
+- [參考文章](https://blog.nrwl.io/nx-and-node-microservices-b6df3cd1bad6)
+- 新增自訂腳本在 `packages/my-app/project.json` 內
+  - docker-build
+  - docker-remove
+  - docker-run
+## nx docker-build my-app 會做什麼?
+- 執行指令之前會檢查dependsOn的內容，裡面定義了 build、^build，代表此專案根依賴的專案都要執行build的行為
+- inputs則是設定了特定檔案的條件下不使用快取
+- options就看各個不同的executor而定，此自訂腳本會用command來執行指令
+
+## nx docker-remove my-app 會做什麼?
+- 直接刪除docker container，不包含任何依賴與條件，就是單純下指令
+
+## nx docker-run my-app 會做什麼?
+- 執行指令之前會檢查dependsOn的內容，裡面定義docker-build、docker-remove，就會優先執行此專案的這兩個指令
+- 執行完畢後就執行docker run
+
 # nx.json在幹嘛?
 ## nx.json -- targetDefaults
 - 裡面有三個 key: build, lint, test，主要是定義對每個專案下的命令要做的事情

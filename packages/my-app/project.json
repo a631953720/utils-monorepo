@@ -13,7 +13,8 @@
         "outputPath": "dist/packages/my-app",
         "main": "packages/my-app/src/main.ts",
         "tsConfig": "packages/my-app/tsconfig.app.json",
-        "assets": ["packages/my-app/src/assets"]
+        "assets": ["packages/my-app/src/assets"],
+        "generatePackageJson": true
       },
       "configurations": {
         "production": {
@@ -53,6 +54,30 @@
       "options": {
         "jestConfig": "packages/my-app/jest.config.ts",
         "passWithNoTests": true
+      }
+    },
+    "docker-build": {
+      "executor": "nx:run-commands",
+      "dependsOn": ["build", "^build"],
+      "inputs": ["production", "^production"],
+      "options": {
+        "command": "docker build -f ./packages/my-app/Dockerfile . -t my-app"
+      }
+    },
+    "docker-remove": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "docker rm -f my-app"
+      }
+    },
+    "docker-run": {
+      "executor": "nx:run-commands",
+      "dependsOn": [
+        "docker-build",
+        "docker-remove"
+      ],
+      "options": {
+        "command": "docker run -idt --name my-app -p 4444:3333 my-app"
       }
     }
   },
