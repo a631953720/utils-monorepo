@@ -1,3 +1,4 @@
+## nx.json在幹嘛?
 ### nx.json -- targetDefaults
 - 裡面有三個 key: build, lint, test，主要是定義對每個專案下的命令要做的事情
 - dependsOn 則是定義執行任務之前要先做的行為
@@ -30,3 +31,4 @@
   ```
 - 沒意外的話就可以看到有執行一個service，可以在瀏覽器輸入 http://localhost:3333/api看看結果
   ![](./public/done.png)
+- 其他更多細節可以多參考原文件
