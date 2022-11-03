@@ -1,5 +1,5 @@
 # 如何使用這個範例?
-- 在跟目錄先安裝套件
+- 在根目錄先安裝套件
   ```
     yarn
     # or
@@ -10,7 +10,7 @@
   ```
     nx serve my-app
   ```
-- 沒意外的話就可以看到有執行一個service，可以在瀏覽器輸入 http://localhost:3333/api看看結果
+- 沒意外的話就可以看到有執行一個service，可以在瀏覽器輸入 http://localhost:3333/api 看看結果
   ![](./public/done.png)
 - 其他更多細節可以多參考原文件
 
