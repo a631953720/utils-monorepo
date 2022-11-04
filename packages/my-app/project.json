@@ -33,7 +33,8 @@
     "serve": {
       "executor": "@nrwl/js:node",
       "options": {
-        "buildTarget": "my-app:build"
+        "buildTarget": "my-app:build",
+        "waitUntilTargets": ["my-app2:serve"]
       },
       "configurations": {
         "production": {

@@ -5,19 +5,16 @@
 
 import * as express from 'express';
 import * as path from 'path';
-import { utils } from '@myorg/utils';
-
-console.log(utils());
 
 const app = express();
-
+console.log('my-app2');
 app.use('/assets', express.static(path.join(__dirname, 'assets')));
 
 app.get('/api', (req, res) => {
-  res.send({ message: `用到nx建立的share lib: ${utils()}` });
+  res.send({ message: 'Welcome to my-app2!' });
 });
 
-const port = process.env.port || 3333;
+const port = process.env.port || 4444;
 const server = app.listen(port, () => {
   console.log(`Listening at http://localhost:${port}/api`);
 });
