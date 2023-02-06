@@ -2,12 +2,12 @@
 import winstonLoggers from './createWinstonLogger';
 import { DateFormat, DateToMMDD } from './utils';
 
-const isDebug = process.env['DEBUG']?.toLowerCase() === 'true';
 const { CommonLoggerConfig, ShowSimpleMessage } = winstonLoggers;
 
 type LoggersProps = {
   type: string;
   isSaveLog?: boolean;
+  isDebug?: boolean;
 };
 
 /**
@@ -18,9 +18,12 @@ export class Loggers {
 
   private isSaveLog: boolean;
 
-  constructor({ type, isSaveLog = false }: LoggersProps) {
+  private isDebug: boolean;
+
+  constructor({ type, isSaveLog = false, isDebug = false }: LoggersProps) {
     this.type = type;
     this.isSaveLog = isSaveLog;
+    this.isDebug = isDebug;
   }
 
   private getFileName() {
@@ -28,7 +31,7 @@ export class Loggers {
   }
 
   debug(message: any, action = '') {
-    if (isDebug) {
+    if (this.isDebug) {
       CommonLoggerConfig(this.getFileName()).info({
         time: DateFormat(new Date().toISOString()),
         label: `[${this.type}]`,
@@ -76,14 +79,18 @@ export class Loggers {
   setIsSaveLog(flag: boolean) {
     this.isSaveLog = flag;
   }
+
+  setIsDebug(flag: boolean) {
+    this.isDebug = flag;
+  }
 }
 
 export const simpleMsg = ShowSimpleMessage.info.bind(ShowSimpleMessage);
 
-const testLogger = new Loggers({ type: 'Winston logger test' });
-// 下面可用來測試功能是否正常
-simpleMsg('----------logger test start----------');
-testLogger.debug('debug');
-testLogger.error('error');
-testLogger.warning('warning');
-simpleMsg('----------logger test end-----------');
+// const testLogger = new Loggers({ type: 'Winston logger test' });
+// // 下面可用來測試功能是否正常
+// simpleMsg('----------logger test start----------');
+// testLogger.debug('debug');
+// testLogger.error('error');
+// testLogger.warning('warning');
+// simpleMsg('----------logger test end-----------');
