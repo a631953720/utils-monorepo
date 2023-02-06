@@ -15,7 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@myorg/utils": ["shared/utils/src/index.ts"]
+      "@myorg/winston-logger": ["shared/winston-logger/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
