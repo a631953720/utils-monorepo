@@ -5,11 +5,17 @@
 
 import * as express from 'express';
 import * as path from 'path';
-import { Loggers } from "@myorg/winston-logger";
+import { AES128Crypt } from '@myorg/crypt'
 
-const testLogger = new Loggers({ type: 'default', isSaveLog: true });
+const test = new AES128Crypt();
+const type: BufferEncoding = 'binary';
 
-testLogger.error('123');
+const b = test.Encrypt('test', type);
+console.log(b);
+
+const eb = test.Decrypt(b.buffer, type);
+console.log(Buffer.from(eb.data).toString('utf-8'));
+console.log(Buffer.from(eb.data).toString('binary'));
 
 const app = express();
 
