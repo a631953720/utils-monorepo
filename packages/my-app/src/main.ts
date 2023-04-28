@@ -5,7 +5,8 @@
 
 import * as express from 'express';
 import * as path from 'path';
-import { Loggers } from "@myorg/winston-logger";
+import { Loggers } from '@myorg/winston-logger';
+import { CardCollecterEntity, UserEntity } from '@myorg/basic';
 
 const testLogger = new Loggers({ type: 'default', isSaveLog: true });
 
@@ -24,3 +25,15 @@ const server = app.listen(port, () => {
   console.log(`Listening at http://localhost:${port}/api`);
 });
 server.on('error', console.error);
+
+const testtt = new CardCollecterEntity();
+
+const user1 = new UserEntity();
+const user2 = new UserEntity();
+
+user1.getDeck(testtt);
+user1.getDeck(testtt);
+user1.getDeck(testtt);
+user2.getDeck(testtt);
+user2.getDeck(testtt);
+user2.getDeck(testtt);
