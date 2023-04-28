@@ -1,16 +1,18 @@
-import { ColorType, Card } from './type';
+import { ColorType, Card, CardJSON } from './type';
 
 export class CardEntity implements Card {
   public id: number;
   public number: number;
   public suit: ColorType;
   public isUsed: boolean;
+  public belongTo: number;
 
-  constructor(data: Pick<Card, "number" | "suit" | "id">) {
+  constructor(data: Pick<Card, 'number' | 'suit' | 'id' | 'belongTo'>) {
     this.number = data.number;
     this.suit = data.suit;
     this.isUsed = false;
-    this.id = this.number;
+    this.id = data.id;
+    this.belongTo = data.belongTo;
   }
 
   public setIsUsed(next) {
@@ -24,5 +26,29 @@ export class CardEntity implements Card {
       isUsed: this.isUsed,
       id: this.id,
     };
+  }
+
+  public compareTo(other: CardJSON): number {
+    if (this.number > other.number) {
+      return 1;
+    } else if (this.number < other.number) {
+      return -1;
+    } else {
+      if (this.suit > other.suit) {
+        return 1;
+      } else if (this.suit < other.suit) {
+        return -1;
+      } else {
+        return 0;
+      }
+    }
+  }
+
+  public setBelong(id: number) {
+    this.belongTo = id;
+  }
+
+  public resetBelong() {
+    this.belongTo = undefined;
   }
 }

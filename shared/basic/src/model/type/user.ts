@@ -1,11 +1,15 @@
-import { CardCollecterJSON, CardJSON } from "./basic";
+import { CardCollecterJSON } from './basic';
+import { Card } from './card';
 
-export type User = {
-  onHand: CardJSON[];
+export interface User {
+  id: number;
+  onHand: Card[];
   size: number;
   getDeck: (deck: CardCollecterJSON) => void;
   getDeckIdList: () => number[];
   resetHand: () => void;
-  getAllDeckOnHand: () => CardJSON[];
-  sendDeckFromHand: (id: number) => CardJSON | null;
+  getAllDeckOnHand: () => Card[];
+  sendDeckFromHand: (id: number) => Card | null;
+  sendMaxFromHand: () => Card | null;
+  getLastDeckOnHand: () => Card | null;
 }

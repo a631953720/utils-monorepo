@@ -3,37 +3,48 @@
  * This is only a minimal backend to get started.
  */
 
-import * as express from 'express';
-import * as path from 'path';
-import { Loggers } from '@myorg/winston-logger';
-import { CardCollecterEntity, UserEntity } from '@myorg/basic';
+import { GameEntity } from '@myorg/basic';
+import { Card } from '../../../shared/basic/src/model/type';
 
-const testLogger = new Loggers({ type: 'default', isSaveLog: true });
-
-testLogger.error('123');
-
-const app = express();
-
-app.use('/assets', express.static(path.join(__dirname, 'assets')));
-
-app.get('/api', (req, res) => {
-  res.send({ message: `用到nx建立的share lib` });
+const game = new GameEntity({
+  playersCount: 2,
 });
 
-const port = process.env.port || 3333;
-const server = app.listen(port, () => {
-  console.log(`Listening at http://localhost:${port}/api`);
-});
-server.on('error', console.error);
+for (let i = 0; i < 6; i++) {
+  game.nextRound({
+    action: 'get',
+  });
+}
 
-const testtt = new CardCollecterEntity();
+const record: Record<number, Card | undefined> = {};
+let userA = 0;
+let userB = 0;
+game.getUserList().forEach((u) => (record[u.id] = undefined));
 
-const user1 = new UserEntity();
-const user2 = new UserEntity();
+for (let i = 0; i < 60; i++) {
+  game.nextRound({
+    action: 'get',
+    onAction: (user) => {
+      const a = user.sendMaxFromHand();
+      record[user.id] = a;
 
-user1.getDeck(testtt);
-user1.getDeck(testtt);
-user1.getDeck(testtt);
-user2.getDeck(testtt);
-user2.getDeck(testtt);
-user2.getDeck(testtt);
+      let winUserId: number;
+
+      if (Object.values(record).every((v) => v)) {
+        const result = Object.values(record).sort((a, b) => a.compareTo(b));
+        winUserId = result.pop().belongTo;
+        game.getUserList().forEach((u) => {
+          record[u.id].resetBelong();
+          record[u.id] = undefined;
+        });
+      }
+
+      if (winUserId === 0) userA++;
+      if (winUserId === 1) userB++;
+    },
+    onEnd: () => {
+      console.log(userA, userB);
+    },
+    stopWhenCardRunOut: true,
+  });
+}

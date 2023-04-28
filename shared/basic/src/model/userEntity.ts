@@ -1,18 +1,42 @@
-import { User, CardCollecter, CardJSON } from "./type";
+import { cloneDeep } from 'lodash';
+import { User, CardCollecter, Card } from './type';
 
 export class UserEntity implements User {
-  public onHand: CardJSON[];
+  public id: number;
+  public onHand: Card[];
   public size: number;
 
-  constructor() {
+  constructor(id: number) {
+    this.id = id;
     this.onHand = [];
     this.size = 0;
   }
 
   getDeck(deck: CardCollecter) {
-    this.onHand.push(deck.getNext())
-    this.size = this.onHand.length;
-  };
+    const card = deck.getNext();
+    if (card) {
+      card.setBelong(this.id);
+      this.onHand.push(cloneDeep(card));
+      this.size = this.onHand.length;
+    }
+
+    // sort
+    this.onHand = this.onHand.sort((a, b) => {
+      if (a.number > b.number) {
+        return 1;
+      } else if (a.number < b.number) {
+        return -1;
+      } else {
+        if (a.suit > b.suit) {
+          return 1;
+        } else if (a.suit < b.suit) {
+          return -1;
+        } else {
+          return 0;
+        }
+      }
+    });
+  }
 
   getDeckIdList() {
     return this.onHand.map((v) => v.id);
@@ -25,15 +49,26 @@ export class UserEntity implements User {
 
   getAllDeckOnHand() {
     return this.onHand;
-  };
+  }
 
   sendDeckFromHand(id: number) {
     const index = this.onHand.findIndex((v) => v.id === id);
-    console.log(index);
     if (index < 0) return null;
 
     const result = this.onHand.splice(index, 1);
     this.size = this.onHand.length;
-    return result[0];
-  };
+    const card = result[0];
+    return card;
+  }
+
+  sendMaxFromHand() {
+    const card = this.onHand.pop();
+    this.size = this.onHand.length;
+    return card;
+  }
+
+  getLastDeckOnHand() {
+    if (!this.onHand.length) return null;
+    return this.onHand[this.onHand.length - 1];
+  }
 }

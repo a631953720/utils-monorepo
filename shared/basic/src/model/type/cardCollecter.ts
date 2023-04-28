@@ -1,11 +1,12 @@
-import { CardJSON } from "./basic";
+import { Card } from './card';
 
-export type CardCollecter = {
+export interface CardCollecter {
   size: number;
-  deck: CardJSON[];
-  getAll: () => CardJSON[] | null;
-  getNext: () => CardJSON | null;
+  deck: Card[];
+  getAll: () => Card[] | null;
+  getNext: () => Card | null;
   createDeck: () => void;
   shuffleDeck: () => void;
   init: () => void;
-};
+  removeCard: (id: number | number[]) => void;
+}
