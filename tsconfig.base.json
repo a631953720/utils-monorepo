@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@myorg/basic": ["shared/basic/src/index.ts"],
       "@myorg/winston-logger": ["shared/winston-logger/src/index.ts"]
     }
   },
