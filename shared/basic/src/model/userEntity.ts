@@ -20,11 +20,10 @@ export class UserEntity implements User {
       this.size = this.onHand.length;
     }
 
-    // sort
     this.onHand = this.onHand.sort((a, b) => {
-      if (a.number > b.number) {
+      if (a.value > b.value) {
         return 1;
-      } else if (a.number < b.number) {
+      } else if (a.value < b.value) {
         return -1;
       } else {
         if (a.suit > b.suit) {

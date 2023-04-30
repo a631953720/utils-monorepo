@@ -33,6 +33,7 @@ for (let i = 0; i < 60; i++) {
       if (Object.values(record).every((v) => v)) {
         const result = Object.values(record).sort((a, b) => a.compareTo(b));
         winUserId = result.pop().belongTo;
+        console.log(record);
         game.getUserList().forEach((u) => {
           record[u.id].resetBelong();
           record[u.id] = undefined;

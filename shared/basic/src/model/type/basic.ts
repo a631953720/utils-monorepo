@@ -1,8 +1,24 @@
 export type ColorType = 'diamonds' | 'hearts' | 'spades' | 'clubs';
 
+export enum Rank {
+  ACE = 1,
+  TWO,
+  THREE,
+  FOUR,
+  FIVE,
+  SIX,
+  SEVEN,
+  EIGHT,
+  NINE,
+  TEN,
+  JACK,
+  QUEEN,
+  KING,
+}
+
 export type CardJSON = {
   id: number;
-  number: number;
+  value: Rank;
   suit: ColorType;
   isUsed: boolean;
 };

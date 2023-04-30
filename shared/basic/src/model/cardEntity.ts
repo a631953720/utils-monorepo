@@ -1,14 +1,14 @@
-import { ColorType, Card, CardJSON } from './type';
+import { ColorType, Card, CardJSON, Rank } from './type';
 
 export class CardEntity implements Card {
   public id: number;
-  public number: number;
+  public value: Rank;
   public suit: ColorType;
   public isUsed: boolean;
   public belongTo: number;
 
-  constructor(data: Pick<Card, 'number' | 'suit' | 'id' | 'belongTo'>) {
-    this.number = data.number;
+  constructor(data: Pick<Card, 'value' | 'suit' | 'id' | 'belongTo'>) {
+    this.value = data.value;
     this.suit = data.suit;
     this.isUsed = false;
     this.id = data.id;
@@ -21,7 +21,7 @@ export class CardEntity implements Card {
 
   public toJSON() {
     return {
-      number: this.number,
+      value: this.value,
       suit: this.suit,
       isUsed: this.isUsed,
       id: this.id,
@@ -29,9 +29,9 @@ export class CardEntity implements Card {
   }
 
   public compareTo(other: CardJSON): number {
-    if (this.number > other.number) {
+    if (this.value > other.value) {
       return 1;
-    } else if (this.number < other.number) {
+    } else if (this.value < other.value) {
       return -1;
     } else {
       if (this.suit > other.suit) {

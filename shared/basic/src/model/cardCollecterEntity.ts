@@ -39,7 +39,7 @@ export class CardCollecterEntity implements CardCollecter {
         result.push(
           new CardEntity({
             id: result.length,
-            number: j + 1,
+            value: j + 1,
             suit,
           })
         );
