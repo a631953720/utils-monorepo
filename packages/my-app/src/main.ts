@@ -4,48 +4,40 @@
  */
 
 import { GameEntity } from '@myorg/basic';
-import { Card } from '../../../shared/basic/src/model/type';
 
 const game = new GameEntity({
   playersCount: 2,
 });
 
-for (let i = 0; i < 6; i++) {
-  game.nextRound({
-    action: 'get',
-  });
-}
+game.nextRound({
+  onAction: (currentUser) => {
+    game.userGetAction(currentUser.id);
+  },
+});
 
-const record: Record<number, Card | undefined> = {};
-let userA = 0;
-let userB = 0;
-game.getUserList().forEach((u) => (record[u.id] = undefined));
+game.nextRound({
+  onAction: (currentUser) => {
+    game.userGetAction(currentUser.id);
+  },
+});
 
-for (let i = 0; i < 60; i++) {
-  game.nextRound({
-    action: 'get',
-    onAction: (user) => {
-      const a = user.sendMaxFromHand();
-      record[user.id] = a;
+const record = {
+  a: undefined,
+  b: undefined,
+};
 
-      let winUserId: number;
+game.nextRound({
+  onAction: (currentUser) => {
+    const card = game.userSendAction(currentUser.id, currentUser.onHand[0].id);
+    console.log(card);
+    record.a = card;
+  },
+});
 
-      if (Object.values(record).every((v) => v)) {
-        const result = Object.values(record).sort((a, b) => a.compareTo(b));
-        winUserId = result.pop().belongTo;
-        console.log(record);
-        game.getUserList().forEach((u) => {
-          record[u.id].resetBelong();
-          record[u.id] = undefined;
-        });
-      }
-
-      if (winUserId === 0) userA++;
-      if (winUserId === 1) userB++;
-    },
-    onEnd: () => {
-      console.log(userA, userB);
-    },
-    stopWhenCardRunOut: true,
-  });
-}
+game.nextRound({
+  onAction: (currentUser) => {
+    const card = game.userSendAction(currentUser.id, currentUser.onHand[0].id);
+    console.log(card);
+    console.log(card.compareTo(record.a));
+  },
+});

@@ -1,9 +1,9 @@
 import { CardJSON, GameLog, UserActions } from './basic';
 import { CardCollecter } from './cardCollecter';
 import { User } from './user';
+import { Card } from './card';
 
 export type NextRoundOptions = {
-  action: UserActions;
   onAction?: (user: User | null) => void;
   onEnd?: () => void;
   stopWhenCardRunOut?: boolean;
@@ -24,5 +24,7 @@ export interface Game {
   setPlayerCount: (count: number) => boolean;
   getUserList: () => User[];
   getUser: (id: number) => User | null;
-  getCurrendDeck: () => CardJSON[];
+  getCurrentDeck: () => CardJSON[];
+  userGetAction: (userId: number) => Card | null;
+  userSendAction: (userId: number, cardId: number) => Card | null;
 }

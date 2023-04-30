@@ -1,9 +1,9 @@
 export type ColorType = 'diamonds' | 'hearts' | 'spades' | 'clubs';
 
 export enum Rank {
-  ACE = 1,
-  TWO,
-  THREE,
+  ACE = 14,
+  TWO = 15,
+  THREE = 3,
   FOUR,
   FIVE,
   SIX,
@@ -28,7 +28,7 @@ export type CardCollecterJSON = {
   deck: CardJSON[];
 };
 
-export type UserActions = 'get';
+export type UserActions = 'get' | 'send';
 
 export type GameLog = {
   userId: number;

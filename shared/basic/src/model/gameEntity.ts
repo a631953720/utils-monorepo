@@ -1,5 +1,6 @@
 import { CardCollecterEntity } from './cardCollecterEntity';
 import {
+  Card,
   CardCollecter,
   CardJSON,
   Game,
@@ -28,7 +29,6 @@ export class GameEntity implements Game {
   public GameLog: GameLog[];
   public currentActiveUserIndex: number | null;
   private playerIdList: number[];
-  private currentActiveUser: User | null;
 
   constructor(data: Pick<Game, 'playersCount'>) {
     this.round = 0;
@@ -51,15 +51,18 @@ export class GameEntity implements Game {
     this.currentActiveUserIndex = 0;
   }
 
-  nextRound({ action, onEnd, onAction, stopWhenCardRunOut }: NextRoundOptions) {
-    const userId = this.playerIdList[this.currentActiveUserIndex];
-    this.round++;
-    if (!this.playerMap.has(this.playerIdList[this.currentActiveUserIndex])) {
+  nextRound({ onEnd, onAction, stopWhenCardRunOut }: NextRoundOptions) {
+    const currentUser = this.playerMap.get(
+      this.playerIdList[this.currentActiveUserIndex]
+    );
+    if (!currentUser) {
       testLogger.error('is not active user');
       return;
     }
 
     if (this.cardCollecter.size < 1) {
+      if (stopWhenCardRunOut) return onEnd();
+
       let ids: number[] = [];
       this.getUserList().forEach((user) => {
         ids = ids.concat(user.getDeckIdList());
@@ -67,29 +70,33 @@ export class GameEntity implements Game {
       this.resetCardCollecter();
 
       this.cardCollecter.removeCard(ids);
-
-      // 沒指定就往下繼續
-      if (stopWhenCardRunOut) return onEnd();
     }
 
-    switch (action) {
-      case 'get':
-        // eslint-disable-next-line no-case-declarations
-        const newCard = this.userGetCard(userId);
-        this.addGameLog({
-          userId,
-          action,
-          card: newCard,
-        });
-        break;
-      default:
-        testLogger.error('unknown user action');
-        break;
-    }
-
-    onAction?.(this.currentActiveUser);
+    onAction?.(currentUser);
 
     this.nextRoundPlayer();
+    this.round++;
+  }
+
+  userGetAction(userId: number) {
+    const newCard = this.userGetCard(userId);
+    this.addGameLog({
+      userId,
+      action: 'get',
+      card: newCard,
+    });
+    return newCard;
+  }
+
+  userSendAction(userId: number, cardId: number) {
+    const sendCard = this.userSendCard(userId, cardId);
+    this.addGameLog({
+      userId,
+      action: 'send',
+      card: sendCard,
+    });
+
+    return sendCard;
   }
 
   setPlayerCount(count: number) {
@@ -109,7 +116,6 @@ export class GameEntity implements Game {
     this.resetCardCollecter();
     this.GameLog = [];
     this.currentActiveUserIndex = 0;
-    this.currentActiveUser = null;
   }
 
   resetAll() {
@@ -119,7 +125,6 @@ export class GameEntity implements Game {
     this.resetCardCollecter();
     this.GameLog = [];
     this.currentActiveUserIndex = 0;
-    this.currentActiveUser = null;
   }
 
   getUser(id: number) {
@@ -134,7 +139,7 @@ export class GameEntity implements Game {
     return users;
   }
 
-  getCurrendDeck() {
+  getCurrentDeck() {
     return this.cardCollecter.getAll();
   }
 
@@ -142,14 +147,23 @@ export class GameEntity implements Game {
     this.GameLog.push(options);
   }
 
-  private userGetCard(userId: number): CardJSON {
+  private userGetCard(userId: number): Card | null {
     const user = this.getUser(userId);
     if (!user) {
       testLogger.warning(`user ${userId} not found`);
-      return;
+      return null;
     }
     user.getDeck(this.cardCollecter);
-    return user.getLastDeckOnHand();
+    return user.getLastDeckOnHand() ?? null;
+  }
+
+  private userSendCard(userId: number, cardId: number): Card | null {
+    const user = this.getUser(userId);
+    if (!user) {
+      testLogger.warning(`user ${userId} not found`);
+      return null;
+    }
+    return user.sendDeckFromHand(cardId) ?? null;
   }
 
   private nextRoundPlayer() {
@@ -158,9 +172,6 @@ export class GameEntity implements Game {
     } else {
       this.currentActiveUserIndex = 0;
     }
-    this.currentActiveUser = this.playerMap.get(
-      this.currentActiveUserIndex
-    ) as User;
   }
 
   private resetCardCollecter() {

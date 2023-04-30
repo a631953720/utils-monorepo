@@ -47,7 +47,7 @@ export class UserEntity implements User {
   }
 
   getAllDeckOnHand() {
-    return this.onHand;
+    return cloneDeep(this.onHand);
   }
 
   sendDeckFromHand(id: number) {
@@ -63,11 +63,15 @@ export class UserEntity implements User {
   sendMaxFromHand() {
     const card = this.onHand.pop();
     this.size = this.onHand.length;
-    return card;
+    return card ?? null;
   }
 
   getLastDeckOnHand() {
     if (!this.onHand.length) return null;
     return this.onHand[this.onHand.length - 1];
+  }
+
+  getDeckFromHand(cardId: number) {
+    return this.onHand.find((v) => v.id === cardId) ?? null;
   }
 }

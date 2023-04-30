@@ -12,4 +12,5 @@ export interface User {
   sendDeckFromHand: (id: number) => Card | null;
   sendMaxFromHand: () => Card | null;
   getLastDeckOnHand: () => Card | null;
+  getDeckFromHand: (cardId: number) => Card | null;
 }
