@@ -1,11 +1,11 @@
-import { CardCollecterJSON } from './basic';
 import { Card } from './card';
+import { CardCollecter } from './cardCollecter';
 
 export interface User {
   id: number;
   onHand: Card[];
   size: number;
-  getDeck: (deck: CardCollecterJSON) => void;
+  getDeck: (deck: CardCollecter) => void;
   getDeckIdList: () => number[];
   resetHand: () => void;
   getAllDeckOnHand: () => Card[];

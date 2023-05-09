@@ -15,7 +15,7 @@ export class CardEntity implements Card {
     this.belongTo = data.belongTo;
   }
 
-  public setIsUsed(next) {
+  public setIsUsed(next: boolean) {
     this.isUsed = next;
   }
 
