@@ -14,11 +14,10 @@ export class UserEntity implements User {
 
   getDeck(deck: CardCollecter) {
     const card = deck.getNext();
-    if (card) {
-      card.setBelong(this.id);
-      this.onHand.push(cloneDeep(card));
-      this.size = this.onHand.length;
-    }
+    if (!card) return;
+    card.setBelong(this.id);
+    this.onHand.push(cloneDeep(card));
+    this.size = this.onHand.length;
 
     this.onHand = this.onHand.sort((a, b) => {
       if (a.value > b.value) {
@@ -56,14 +55,7 @@ export class UserEntity implements User {
 
     const result = this.onHand.splice(index, 1);
     this.size = this.onHand.length;
-    const card = result[0];
-    return card;
-  }
-
-  sendMaxFromHand() {
-    const card = this.onHand.pop();
-    this.size = this.onHand.length;
-    return card ?? null;
+    return result[0];
   }
 
   getLastDeckOnHand() {

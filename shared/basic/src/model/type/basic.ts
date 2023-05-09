@@ -16,22 +16,22 @@ export enum Rank {
   KING,
 }
 
-export type CardJSON = {
+export interface CardJSON {
   id: number;
   value: Rank;
   suit: ColorType;
   isUsed: boolean;
-};
+}
 
-export type CardCollecterJSON = {
+export interface CardCollecterJSON {
   size: number;
   deck: CardJSON[];
-};
+}
 
 export type UserActions = 'get' | 'send';
 
-export type GameLog = {
+export interface GameLog {
   userId: number;
   action: UserActions;
   card: CardJSON;
-};
+}

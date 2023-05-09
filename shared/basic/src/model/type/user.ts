@@ -10,7 +10,6 @@ export interface User {
   resetHand: () => void;
   getAllDeckOnHand: () => Card[];
   sendDeckFromHand: (id: number) => Card | null;
-  sendMaxFromHand: () => Card | null;
   getLastDeckOnHand: () => Card | null;
   getDeckFromHand: (cardId: number) => Card | null;
 }

@@ -52,6 +52,11 @@ export class GameEntity implements Game {
   }
 
   nextRound({ onEnd, onAction, stopWhenCardRunOut }: NextRoundOptions) {
+    if (this.currentActiveUserIndex === null) {
+      testLogger.warning('currentActiveUserIndex is null');
+      return;
+    }
+
     const currentUser = this.playerMap.get(
       this.playerIdList[this.currentActiveUserIndex]
     );
@@ -61,7 +66,7 @@ export class GameEntity implements Game {
     }
 
     if (this.cardCollecter.size < 1) {
-      if (stopWhenCardRunOut) return onEnd();
+      if (stopWhenCardRunOut) return onEnd?.();
 
       let ids: number[] = [];
       this.getUserList().forEach((user) => {
@@ -71,7 +76,6 @@ export class GameEntity implements Game {
 
       this.cardCollecter.removeCard(ids);
     }
-
     onAction?.(currentUser);
 
     this.nextRoundPlayer();
@@ -80,6 +84,7 @@ export class GameEntity implements Game {
 
   userGetAction(userId: number) {
     const newCard = this.userGetCard(userId);
+    if (!newCard) return null;
     this.addGameLog({
       userId,
       action: 'get',
@@ -90,6 +95,7 @@ export class GameEntity implements Game {
 
   userSendAction(userId: number, cardId: number) {
     const sendCard = this.userSendCard(userId, cardId);
+    if (!sendCard) return null;
     this.addGameLog({
       userId,
       action: 'send',
@@ -140,7 +146,7 @@ export class GameEntity implements Game {
   }
 
   getCurrentDeck() {
-    return this.cardCollecter.getAll();
+    return this.cardCollecter.getAll() ?? [];
   }
 
   private addGameLog(options: AddGameLogOptions) {
@@ -167,6 +173,10 @@ export class GameEntity implements Game {
   }
 
   private nextRoundPlayer() {
+    if (this.currentActiveUserIndex === null) {
+      testLogger.warning('currentActiveUserIndex is null');
+      return;
+    }
     if (this.currentActiveUserIndex < this.playerIdList.length - 1) {
       this.currentActiveUserIndex++;
     } else {

@@ -5,7 +5,7 @@ export class CardEntity implements Card {
   public value: Rank;
   public suit: ColorType;
   public isUsed: boolean;
-  public belongTo: number;
+  public belongTo?: number;
 
   constructor(data: Pick<Card, 'value' | 'suit' | 'id' | 'belongTo'>) {
     this.value = data.value;

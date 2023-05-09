@@ -64,7 +64,7 @@ describe('GameEntity', () => {
     it('should reset the card collecter if it has run out of cards', () => {
       game.getUser(0)?.getDeck(game.cardCollecter);
       game.getUser(1)?.getDeck(game.cardCollecter);
-      const allCards = game.cardCollecter.getAll();
+      const allCards = game.cardCollecter.getAll() ?? [];
       game.cardCollecter.removeCard(allCards.map((c) => c.id));
       expect(game.cardCollecter.size).toBe(0);
 
@@ -83,7 +83,7 @@ describe('GameEntity', () => {
     it('should end the game if stopWhenCardRunOut is true and the card collecter has run out of cards', () => {
       game.getUser(0)?.getDeck(game.cardCollecter);
       game.getUser(1)?.getDeck(game.cardCollecter);
-      const allCards = game.cardCollecter.getAll();
+      const allCards = game.cardCollecter.getAll() ?? [];
       game.cardCollecter.removeCard(allCards.map((c) => c.id));
 
       const onEnd = jest.fn();
@@ -153,7 +153,7 @@ describe('GameEntity', () => {
     it('should return the correct user entity given an existing user ID', () => {
       const user = game.getUser(0);
       expect(user).toBeDefined();
-      expect(user.id).toEqual(0);
+      expect(user?.id).toEqual(0);
     });
 
     it('should return null given a non-existing user ID', () => {
@@ -182,11 +182,12 @@ describe('GameEntity', () => {
     const userId = 0;
     const user = game.getUser(userId);
 
-    const prevSize = user.size;
+    const prevSize = user?.size;
     game.userGetAction(userId);
-    const newSize = user.size;
+    const newSize = user?.size;
 
-    expect(newSize).toBeGreaterThan(prevSize);
+    expect(prevSize).toBeDefined();
+    expect(newSize).toBeGreaterThan(prevSize as number);
     expect(game.getCurrentDeck().length).toEqual(51);
   });
 
@@ -213,7 +214,7 @@ describe('GameEntity', () => {
       // get one card
       game.userGetAction(userId);
       const card = user?.onHand[0];
-      const sentCard = game.userSendAction(userId, card?.id);
+      const sentCard = game.userSendAction(userId, card?.id as number);
 
       expect(card).not.toBeUndefined();
       expect(sentCard).toEqual(card);
@@ -226,7 +227,7 @@ describe('GameEntity', () => {
       // get one card
       game.userGetAction(userId);
       const card = user?.onHand[0];
-      game.userSendAction(userId, card?.id);
+      game.userSendAction(userId, card?.id as number);
 
       expect(card).not.toBeUndefined();
       expect(game.GameLog.length).toEqual(2);

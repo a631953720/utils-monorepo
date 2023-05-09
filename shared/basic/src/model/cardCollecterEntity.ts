@@ -18,7 +18,7 @@ export class CardCollecterEntity implements CardCollecter {
     if (this.size < 1) return null;
     const card = this.deck.pop();
     this.size = this.deck.length;
-    return card;
+    return card ?? null;
   }
 
   getAll() {

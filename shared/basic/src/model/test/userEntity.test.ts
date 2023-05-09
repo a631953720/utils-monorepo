@@ -20,7 +20,7 @@ describe('UserEntity', () => {
     initUserCard = () => {
       const size = 5;
       for (let i = 0; i < size; i++) {
-        const card = deck.getNext();
+        const card = deck.getNext() as Card;
         card.setBelong(user.id);
         cards.push(card);
         user.onHand.push(card);
@@ -122,28 +122,6 @@ describe('UserEntity', () => {
     });
   });
 
-  describe('sendMaxFromHand', () => {
-    it('should return null if the hand is empty', () => {
-      const card = user.sendMaxFromHand();
-      expect(card).toBeNull();
-    });
-
-    it('should remove and return the max card from the hand', () => {
-      // Set up user hand
-      const card1 = new CardEntity({ id: 1, value: 5, suit: 'hearts' });
-      const card2 = new CardEntity({ id: 2, value: 8, suit: 'diamonds' });
-      const card3 = new CardEntity({ id: 3, value: 2, suit: 'clubs' });
-      user.onHand.push(card1, card2, card3);
-      user.size = 3;
-
-      // Expect max card to be returned and removed from hand
-      const maxCard = user.sendMaxFromHand();
-      expect(maxCard).toEqual(card3);
-      expect(user.size).toBe(2);
-      expect(user.onHand).toEqual([card1, card2]);
-    });
-  });
-
   describe('getLastDeckOnHand', () => {
     it('should return null if the hand is empty', () => {
       const card = user.getLastDeckOnHand();
@@ -154,7 +132,7 @@ describe('UserEntity', () => {
       // Set up user hand
       const card1 = new CardEntity({ id: 1, value: 5, suit: 'hearts' });
       const card2 = new CardEntity({ id: 2, value: 8, suit: 'diamonds' });
-      const card3 = new CardEntity({ id: 3, value: 2, suit: 'clubs' });
+      const card3 = new CardEntity({ id: 3, value: 4, suit: 'clubs' });
       user.onHand.push(card1, card2, card3);
       user.size = 3;
 
