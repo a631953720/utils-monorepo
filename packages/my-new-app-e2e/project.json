@@ -1,22 +1,22 @@
 {
-  "name": "ui-e2e",
+  "name": "my-new-app-e2e",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "packages/ui-e2e/src",
+  "sourceRoot": "packages/my-new-app-e2e/src",
   "projectType": "application",
   "targets": {
     "e2e": {
       "executor": "@nx/cypress:cypress",
       "options": {
-        "cypressConfig": "packages/ui-e2e/cypress.config.ts",
-        "devServerTarget": "ui:serve:development",
+        "cypressConfig": "packages/my-new-app-e2e/cypress.config.ts",
+        "devServerTarget": "my-new-app:serve:development",
         "testingType": "e2e"
       },
       "configurations": {
         "production": {
-          "devServerTarget": "ui:serve:production"
+          "devServerTarget": "my-new-app:serve:production"
         },
         "ci": {
-          "devServerTarget": "ui:serve-static"
+          "devServerTarget": "my-new-app:serve-static"
         }
       }
     },
@@ -24,10 +24,10 @@
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["packages/ui-e2e/**/*.{js,ts}"]
+        "lintFilePatterns": ["packages/my-new-app-e2e/**/*.{js,ts}"]
       }
     }
   },
   "tags": [],
-  "implicitDependencies": ["ui"]
+  "implicitDependencies": ["my-new-app"]
 }

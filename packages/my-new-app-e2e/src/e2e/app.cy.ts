@@ -1,6 +1,6 @@
 import { getGreeting } from '../support/app.po';
 
-describe('ui', () => {
+describe('my-new-app', () => {
   beforeEach(() => cy.visit('/'));
 
   it('should display welcome message', () => {
@@ -8,6 +8,6 @@ describe('ui', () => {
     cy.login('my-email@something.com', 'myPassword');
 
     // Function helper example, see `../support/app.po.ts` file
-    getGreeting().contains('Welcome ui');
+    getGreeting().contains('Welcome my-new-app');
   });
 });

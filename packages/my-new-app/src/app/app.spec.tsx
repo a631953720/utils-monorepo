@@ -20,6 +20,6 @@ describe('App', () => {
         <App />
       </BrowserRouter>
     );
-    expect(getByText(/Welcome ui/gi)).toBeTruthy();
+    expect(getByText(/Welcome my-new-app/gi)).toBeTruthy();
   });
 });

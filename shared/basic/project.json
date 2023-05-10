@@ -4,6 +4,16 @@
   "sourceRoot": "shared/basic/src",
   "projectType": "library",
   "targets": {
+    "build": {
+      "executor": "@nrwl/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "node_modules/@myorg/basic",
+        "main": "shared/basic/src/index.ts",
+        "tsConfig": "shared/basic/tsconfig.lib.json",
+        "assets": ["shared/basic/*.md"]
+      }
+    },
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],

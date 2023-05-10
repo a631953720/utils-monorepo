@@ -3,17 +3,15 @@ import styled from 'styled-components';
 import NxWelcome from './nx-welcome';
 
 import { Route, Routes, Link } from 'react-router-dom';
-import { CardCollecterEntity } from '@myorg/basic';
 
 const StyledApp = styled.div`
   // Your style here
 `;
 
 export function App() {
-  const deck = new CardCollecterEntity();
   return (
     <StyledApp>
-      <NxWelcome title="ui" />
+      <NxWelcome title="my-new-app" />
 
       {/* START: routes */}
       {/* These routes and navigation have been generated for you */}
@@ -37,17 +35,6 @@ export function App() {
           element={
             <div>
               This is the generated root route.{' '}
-              {deck.getAll().map((v) => {
-                return (
-                  <div key={v.id}>
-                    <div>
-                      <span>{v.suit}</span>
-                      {'  '}
-                      <span>{v.value}</span>
-                    </div>
-                  </div>
-                );
-              })}
               <Link to="/page-2">Click here for page 2.</Link>
             </div>
           }
