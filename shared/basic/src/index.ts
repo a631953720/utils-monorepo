@@ -1,3 +1,3 @@
-export * from './model/cardCollecterEntity';
-export * from './model/userEntity';
-export * from './model/gameEntity';
+export * from './model/sample/cardCollecterEntity';
+export * from './model/sample/userEntity';
+export * from './model/sample/gameEntity';
