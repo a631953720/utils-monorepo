@@ -2,42 +2,19 @@
  * This is not a production server yet!
  * This is only a minimal backend to get started.
  */
+import { Task } from '@myorg/task';
+import { getKnex } from '@myorg/basic';
 
-import { GameEntity } from '@myorg/basic';
+(async () => {
+  const k = getKnex();
 
-const game = new GameEntity({
-  playersCount: 2,
-});
+  const taskRepo = new Task(k);
 
-game.nextRound({
-  onAction: (currentUser) => {
-    game.userGetAction(currentUser.id);
-  },
-});
+  const testA = await taskRepo.all();
 
-game.nextRound({
-  onAction: (currentUser) => {
-    game.userGetAction(currentUser.id);
-  },
-});
+  console.log(testA);
 
-const record = {
-  a: undefined,
-  b: undefined,
-};
+  const testB = await taskRepo.getForCondition('id', 2);
 
-game.nextRound({
-  onAction: (currentUser) => {
-    const card = game.userSendAction(currentUser.id, currentUser.onHand[0].id);
-    console.log(card);
-    record.a = card;
-  },
-});
-
-game.nextRound({
-  onAction: (currentUser) => {
-    const card = game.userSendAction(currentUser.id, currentUser.onHand[0].id);
-    console.log(card);
-    console.log(card.compareTo(record.a));
-  },
-});
+  console.log(testB);
+})();
