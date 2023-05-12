@@ -1,4 +1,5 @@
 import knex, { Knex } from 'knex';
+import { pgConfig } from '../../constant';
 
 let k: Knex;
 
@@ -7,7 +8,7 @@ export function getKnex() {
 
   k = knex({
     client: 'pg',
-    connection: 'postgresql://postgres:psql@127.0.0.1:5432/postgres',
+    connection: `postgresql://${pgConfig.user}:${pgConfig.psw}@127.0.0.1:5432/${pgConfig.database}`,
     searchPath: ['knex', 'public'],
     debug: true,
   });

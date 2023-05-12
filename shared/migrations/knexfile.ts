@@ -1,4 +1,5 @@
 import type { Knex } from 'knex';
+import { pgConfig } from './constant';
 
 // Update with your config settings.
 // https://knexjs.org/guide/migrations.html#migration-cli
@@ -6,9 +7,9 @@ const config: { [key: string]: Knex.Config } = {
   development: {
     client: 'postgresql',
     connection: {
-      database: 'postgres',
-      user: 'postgres',
-      password: 'psql',
+      database: pgConfig.database,
+      user: pgConfig.user,
+      password: pgConfig.psw,
     },
     pool: {
       min: 2,

@@ -10,11 +10,14 @@
     "migrate:rollback": "cd ./shared/migrations && knex migrate:rollback",
     "migrate:list": "cd ./shared/migrations && knex migrate:list",
     "seed:make": "cd ./shared/migrations && knex seed:make",
-    "seed:run": "cd ./shared/migrations && knex seed:run"
+    "seed:run": "cd ./shared/migrations && knex seed:run",
+    "prepare:env": "cd ./scripts && bash ./init-project.sh"
   },
   "private": true,
   "dependencies": {
     "@swc/helpers": "~0.5.0",
+    "@types/dotenv": "^8.2.0",
+    "dotenv": "^16.0.3",
     "express": "^4.18.1",
     "knex": "^2.4.2",
     "lodash": "^4.17.21",
@@ -81,7 +84,7 @@
     "react-refresh": "^0.10.0",
     "react-test-renderer": "18.2.0",
     "ts-jest": "29.1.0",
-    "ts-node": "10.9.1",
+    "ts-node": "^10.9.1",
     "typescript": "5.0.4",
     "url-loader": "^4.1.1",
     "webpack": "^5.82.0",
