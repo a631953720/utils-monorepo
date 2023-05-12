@@ -2,19 +2,26 @@
  * This is not a production server yet!
  * This is only a minimal backend to get started.
  */
-import { Task } from '@myorg/task';
+import { TaskPriority, TaskRepo } from '@myorg/task';
 import { getKnex } from '@myorg/basic';
 
 (async () => {
   const k = getKnex();
 
-  const taskRepo = new Task(k);
+  const taskRepo = new TaskRepo(k);
 
-  const testA = await taskRepo.all();
+  // const testA = await taskRepo.all();
+  //
+  // console.log(testA);
+  //
+  // const testB = await taskRepo.getForCondition('id', 2);
+  //
+  // console.log(testB);
 
-  console.log(testA);
+  const r3 = await taskRepo.findTask({
+    name: 'task-2',
+    priority: TaskPriority.none,
+  });
 
-  const testB = await taskRepo.getForCondition('id', 2);
-
-  console.log(testB);
+  console.log(r3);
 })();
