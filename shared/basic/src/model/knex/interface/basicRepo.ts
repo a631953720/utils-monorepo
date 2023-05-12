@@ -13,22 +13,23 @@ export abstract class BaseRepo<T extends Entity>
     this.tableName = tableName;
   }
 
-  protected getQuery(): Knex.QueryBuilder {
+  // todo: 為了避免型別問題的暫時做法
+  protected getQuery(): Knex.QueryBuilder<T> {
     return this.knex<T>(this.tableName);
   }
 
-  async create(entity: T): Promise<NullAble<T>> {
-    const [newEntity] = await this.getQuery().insert(entity).returning('*');
+  async create(entity: Omit<T, 'id'>): Promise<NullAble<T>> {
+    const [newEntity] = await this.knex.insert(entity).returning('*');
     return newEntity;
   }
   async findById(id: number): Promise<T | null> {
-    const [entity] = await this.getQuery().where({ id }).select('*');
+    const [entity] = await this.knex.where({ id }).select('*');
     return entity;
   }
 
   async update(id: number, data: Partial<T>): Promise<boolean> {
     try {
-      await this.getQuery().where({ id }).update(data);
+      await this.knex.where({ id }).update(data);
       return true;
     } catch (e) {
       return false;
@@ -37,7 +38,7 @@ export abstract class BaseRepo<T extends Entity>
 
   async delete(id: number): Promise<boolean> {
     try {
-      await this.getQuery().where({ id }).del();
+      await this.knex.where({ id }).del();
       return true;
     } catch (e) {
       return false;
@@ -46,7 +47,7 @@ export abstract class BaseRepo<T extends Entity>
 
   async all(): Promise<T[] | null> {
     try {
-      return this.getQuery().select('*');
+      return this.knex.select('*');
     } catch (e) {
       return null;
     }

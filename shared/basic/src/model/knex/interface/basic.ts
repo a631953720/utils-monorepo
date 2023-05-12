@@ -11,3 +11,12 @@ export interface BaseRepositoryInterface<T extends Entity> {
   delete(id: number): Promise<boolean>;
   all(): Promise<T[] | null>;
 }
+
+export enum ComparisonOperator {
+  EqualTo = '=',
+  GreaterThan = '>',
+  LessThan = '<',
+  GreaterThanOrEqualTo = '>=',
+  LessThanOrEqualTo = '<=',
+  NotEqualTo = '<>',
+}
