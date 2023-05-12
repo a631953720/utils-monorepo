@@ -8,6 +8,7 @@ export async function seed(knex: Knex): Promise<void> {
   await knex('task').insert([
     {
       id: 1,
+      name: 'task-1',
       priority: 0,
       startTime: new Date().toISOString(),
       endTime: null,
@@ -18,6 +19,7 @@ export async function seed(knex: Knex): Promise<void> {
     },
     {
       id: 2,
+      name: 'task-2',
       priority: 2,
       startTime: new Date().toISOString(),
       endTime: null,
@@ -28,6 +30,7 @@ export async function seed(knex: Knex): Promise<void> {
     },
     {
       id: 3,
+      name: 'task-3',
       priority: 1,
       startTime: new Date().toISOString(),
       endTime: null,
