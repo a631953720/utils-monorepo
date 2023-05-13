@@ -1,3 +1,5 @@
+#!/bin/bash
+
 echo "set env"
 
 cd ../shared/basic

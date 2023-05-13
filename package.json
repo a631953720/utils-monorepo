@@ -4,14 +4,21 @@
   "license": "MIT",
   "scripts": {
     "migrate:make": "cd ./scripts && bash ./migrate-make.sh",
-    "migrate": "cd ./shared/migrations && knex migrate:latest",
+    "migrate": "cd ./shared/migrations && NODE_ENV=development knex migrate:latest",
     "migrate:up": "cd ./shared/migrations && knex migrate:up",
     "migrate:down": "cd ./shared/migrations && knex migrate:down",
     "migrate:rollback": "cd ./shared/migrations && knex migrate:rollback",
     "migrate:list": "cd ./shared/migrations && knex migrate:list",
     "seed:make": "cd ./shared/migrations && knex seed:make",
-    "seed:run": "cd ./shared/migrations && knex seed:run",
-    "prepare:env": "cd ./scripts && bash ./init-project.sh"
+    "seed:dev-run": "cd ./shared/migrations && knex seed:run",
+    "prepare:env": "cd ./scripts && bash ./init-project.sh",
+    "prepare:pg": "cd ./scripts && bash ./docker-run-pg.sh",
+    "preprepare:e2e-pg": "yarn prepare:pg test",
+    "prepare:e2e-pg": "cd ./scripts && bash ./e2e-prepare-pg.sh",
+    "prepare:dev-pg": "yarn prepare:pg",
+    "rollback:e2e-pg": "cd ./scripts && bash ./e2e-rollback-pg.sh",
+    "pree2e:lib": "yarn prepare:e2e-pg",
+    "test:all": "nx run-many -t test"
   },
   "private": true,
   "dependencies": {
@@ -21,6 +28,7 @@
     "express": "^4.18.1",
     "knex": "^2.4.2",
     "lodash": "^4.17.21",
+    "pg-types": "^4.0.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-is": "18.2.0",
