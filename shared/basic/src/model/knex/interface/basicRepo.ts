@@ -1,9 +1,12 @@
 import { Knex } from 'knex';
 import { NullAble } from './utils';
-import { BaseRepositoryInterface, Entity } from './basic';
+import { BaseRepositoryInterface, Entity, EntityId } from './basic';
 
-export abstract class BaseRepo<T extends Entity>
-  implements BaseRepositoryInterface<T>
+export abstract class BaseRepo<
+  T extends Entity,
+  PK extends EntityId = EntityId,
+  Conditions extends Partial<T> = Partial<T>
+> implements BaseRepositoryInterface<T>
 {
   protected readonly knex: Knex;
   protected readonly tableName: string;
@@ -19,26 +22,43 @@ export abstract class BaseRepo<T extends Entity>
   }
 
   async create(entity: Omit<T, 'id'>): Promise<NullAble<T>> {
-    const [newEntity] = await this.knex.insert(entity).returning('*');
+    const [newEntity] = await this.knex(this.tableName)
+      .insert(entity)
+      .returning('*');
     return newEntity;
   }
-  async findById(id: number): Promise<T | null> {
-    const [entity] = await this.knex.where({ id }).select('*');
-    return entity;
+
+  async find(id: PK): Promise<T | null> {
+    const [entity] = await this.knex(this.tableName).where({ id }).select('*');
+    return entity ?? null;
   }
 
-  async update(id: number, data: Partial<T>): Promise<boolean> {
+  async findOne(conditions: Conditions): Promise<NullAble<T>> {
+    const [entity] = await this.knex(this.tableName)
+      .where(conditions)
+      .select('*');
+    return entity ?? null;
+  }
+
+  async findMany(conditions: Conditions): Promise<T[]> {
+    const entities = await this.knex(this.tableName)
+      .where(conditions)
+      .select('*');
+    return entities;
+  }
+
+  async update(id: PK, data: Partial<T>): Promise<boolean> {
     try {
-      await this.knex.where({ id }).update(data);
+      await this.knex(this.tableName).where({ id }).update(data);
       return true;
     } catch (e) {
       return false;
     }
   }
 
-  async delete(id: number): Promise<boolean> {
+  async delete(id: PK): Promise<boolean> {
     try {
-      await this.knex.where({ id }).del();
+      await this.knex(this.tableName).where({ id }).del();
       return true;
     } catch (e) {
       return false;
@@ -47,9 +67,19 @@ export abstract class BaseRepo<T extends Entity>
 
   async all(): Promise<T[] | null> {
     try {
-      return this.knex.select('*');
+      return this.knex(this.tableName).select('*');
     } catch (e) {
       return null;
     }
+  }
+
+  async has(id: PK): Promise<boolean> {
+    const find = await this.find(id);
+    return find !== null;
+  }
+
+  async hasOne(conditions: Conditions): Promise<boolean> {
+    const finds = await this.findMany(conditions);
+    return finds.length === 1;
   }
 }
