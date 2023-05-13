@@ -6,6 +6,9 @@ dotenv.config({
 });
 
 export const pgConfig = {
+  host: process.env.POSTGRES_HOST ?? '127.0.0.1',
+  port: process.env.POSTGRES_PORT ?? '5432',
+  testPort: process.env.POSTGRES_TEST_PORT ?? '19877',
   user: process.env.POSTGRES_USER ?? '',
   psw: process.env.POSTGRES_PSW ?? '',
   database: process.env.POSTGRES_DATABASE ?? '',

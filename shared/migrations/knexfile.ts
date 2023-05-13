@@ -10,6 +10,8 @@ const config: { [key: string]: Knex.Config } = {
       database: pgConfig.database,
       user: pgConfig.user,
       password: pgConfig.psw,
+      port: parseInt(pgConfig.port),
+      host: pgConfig.host,
     },
     pool: {
       min: 2,
@@ -20,12 +22,14 @@ const config: { [key: string]: Knex.Config } = {
     },
   },
 
-  staging: {
+  test: {
     client: 'postgresql',
     connection: {
-      database: 'my_db',
-      user: 'username',
-      password: 'password',
+      database: pgConfig.database,
+      user: pgConfig.user,
+      password: pgConfig.psw,
+      port: parseInt(pgConfig.testPort),
+      host: pgConfig.host,
     },
     pool: {
       min: 2,

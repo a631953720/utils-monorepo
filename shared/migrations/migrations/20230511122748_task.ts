@@ -5,8 +5,8 @@ export async function up(knex: Knex): Promise<void> {
     table.increments('id').primary();
     table.string('name', 1000).unique().notNullable();
     table.integer('priority').notNullable();
-    table.date('startTime');
-    table.date('endTime');
+    table.datetime('startTime');
+    table.datetime('endTime');
     table.string('benefit', 1000);
     table.string('disadvantages', 1000);
     table.string('note', 1000);
