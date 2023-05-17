@@ -22,10 +22,15 @@ export abstract class BaseRepo<
   }
 
   async create(entity: Omit<T, 'id'>): Promise<NullAble<T>> {
-    const [newEntity] = await this.knex(this.tableName)
-      .insert(entity)
-      .returning('*');
-    return newEntity;
+    try {
+      const [newEntity] = await this.knex(this.tableName)
+        .insert(entity)
+        .returning('*');
+      return newEntity;
+    } catch (e) {
+      console.log(e);
+      return null;
+    }
   }
 
   async find(id: PK): Promise<T | null> {
@@ -47,12 +52,15 @@ export abstract class BaseRepo<
     return entities;
   }
 
-  async update(id: PK, data: Partial<T>): Promise<boolean> {
+  async update(id: PK, data: Partial<T>): Promise<NullAble<T>> {
     try {
-      await this.knex(this.tableName).where({ id }).update(data);
-      return true;
+      const [entity] = await this.knex(this.tableName)
+        .where({ id })
+        .update(data)
+        .returning('*');
+      return entity;
     } catch (e) {
-      return false;
+      return null;
     }
   }
 

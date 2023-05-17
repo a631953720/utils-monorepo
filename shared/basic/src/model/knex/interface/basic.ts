@@ -17,7 +17,7 @@ export interface BaseRepositoryInterface<
   findMany(conditions: Conditions): Promise<T[]>;
   has(id: PK): Promise<boolean>;
   hasOne(conditions: Conditions): Promise<boolean>;
-  update(id: PK, data: Partial<T>): Promise<boolean>;
+  update(id: PK, data: Partial<T>): Promise<NullAble<T>>;
   delete(id: PK): Promise<boolean>;
   all(): Promise<T[] | null>;
 }

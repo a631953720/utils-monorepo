@@ -7,7 +7,9 @@ export async function seed(knex: Knex): Promise<void> {
   // Inserts seed entries
   await knex('task').insert([
     {
-      id: 1,
+      // 自己給id會讓ＤＢ自動增加id的功能消失
+      // https://stackoverflow.com/questions/44901111/duplicate-key-value-violates-unique-constraint-using-knexjs-with-postgresql
+      // id: 1,
       name: 'task-1',
       priority: 0,
       startTime: new Date('2023-05-05').toISOString(),
@@ -18,7 +20,7 @@ export async function seed(knex: Knex): Promise<void> {
       state: 'notStart',
     },
     {
-      id: 2,
+      // id: 2,
       name: 'task-2',
       priority: 2,
       startTime: new Date('2023-05-05').toISOString(),
@@ -29,7 +31,7 @@ export async function seed(knex: Knex): Promise<void> {
       state: 'notStart',
     },
     {
-      id: 3,
+      // id: 3,
       name: 'task-3',
       priority: 1,
       startTime: new Date('2023-05-05').toISOString(),

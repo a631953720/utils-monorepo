@@ -2,7 +2,7 @@ import { Knex } from 'knex';
 
 export async function up(knex: Knex): Promise<void> {
   return knex.schema.createTable('task', (table) => {
-    table.increments('id').primary();
+    table.increments('id').notNullable().primary();
     table.string('name', 1000).unique().notNullable();
     table.integer('priority').notNullable();
     table.datetime('startTime');

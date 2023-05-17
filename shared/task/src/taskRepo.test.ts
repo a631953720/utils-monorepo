@@ -46,6 +46,35 @@ describe('taskRepo', () => {
       expect(r?.state).toEqual('notStart');
     });
   });
+
+  test('create update and delete', async () => {
+    const createPayload: any = {
+      name: 'task-4',
+      priority: 0,
+      startTime: '2023-05-05T00:00:00.000Z',
+      endTime: null,
+      benefit: 'good',
+      disadvantages: 'bad',
+      note: null,
+      state: 'notStart',
+    };
+
+    // create
+    const createResult = await taskRepo.create(createPayload);
+
+    const expectCreated = { id: 4, ...createPayload };
+    expect(createResult).toEqual(expectCreated);
+
+    // update
+    const updateResult = await taskRepo.update(4, { name: 'kkkk' });
+
+    const expectUpdated = { ...expectCreated, name: 'kkkk' };
+    expect(updateResult).toEqual(expectUpdated);
+
+    // delete
+    const deleteResult = await taskRepo.delete(4);
+    expect(deleteResult).toEqual(true);
+  });
 });
 
 // todo: add other test case
