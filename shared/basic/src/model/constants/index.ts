@@ -17,6 +17,8 @@ const mongoConfig = {
   uri: '',
 };
 
+const apiHost = process.env.NX_API_HOST ?? 'http://127.0.0.1:3000';
+
 mongoConfig.uri = `mongodb+srv://${mongoConfig.user}:${mongoConfig.psw}@${mongoConfig.cluster}`;
 
 export const pgConfig = {
@@ -29,6 +31,7 @@ export const pgConfig = {
   debug: process.env.POSTGRES_DEBUG === 'true',
   mongoConfig,
   lineNotifyConfig,
+  apiHost,
 };
 
 // 測試用

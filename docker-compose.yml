@@ -1,6 +1,7 @@
 version: '3'
 services:
   my-app:
+    container_name: my-app
     build:
       context: .
       dockerfile: ./packages/my-app/Dockerfile
@@ -11,3 +12,16 @@ services:
       - 3000:3000
     platform: linux/amd64
     image: a631953720/utils-monorepo-my-app
+  static-service:
+      container_name: static-service
+      build:
+        context: .
+        dockerfile: ./packages/static-service/Dockerfile
+      env_file:
+        - ./.env
+      command: node ./main.js
+      ports:
+        - 80:80
+      platform: linux/amd64
+#      network_mode: host
+      image: a631953720/utils-monorepo-static-service

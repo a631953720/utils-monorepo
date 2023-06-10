@@ -1,5 +1,5 @@
-import { pgConfig } from '@myorg/configs';
 import { Loggers } from '@myorg/winston-logger';
+import { pgConfig } from '../constants';
 
 const logger = new Loggers({ type: 'line' });
 

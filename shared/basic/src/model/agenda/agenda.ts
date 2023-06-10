@@ -1,5 +1,5 @@
-import { pgConfig } from '@myorg/configs';
 import { Agenda } from 'agenda';
+import { pgConfig } from '../constants';
 
 export const agendaConfigs = {
   uri: pgConfig.mongoConfig.uri,

@@ -16,7 +16,8 @@
         "tsConfig": "packages/static-service/tsconfig.app.json",
         "assets": ["packages/static-service/src/assets"],
         "isolatedConfig": true,
-        "webpackConfig": "packages/static-service/webpack.config.js"
+        "webpackConfig": "packages/static-service/webpack.config.js",
+        "generatePackageJson": true
       },
       "configurations": {
         "development": {},
@@ -57,6 +58,43 @@
           "ci": true,
           "codeCoverage": true
         }
+      }
+    },
+    "docker-build": {
+      "executor": "nx:run-commands",
+      "dependsOn": ["build", "^build"],
+      "inputs": ["production", "^production"],
+      "options": {
+        "commands": [
+          "nx run my-new-app:build",
+          "rm -rf ./dist/packages/static-service/assets",
+          "cp -r ./dist/packages/my-new-app ./dist/packages/static-service/assets",
+          "docker-compose build static-service"
+        ],
+        "parallel": false
+      }
+    },
+    "docker-remove": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "docker-compose stop static-service",
+          "docker-compose rm static-service -f"
+        ],
+        "parallel": false
+      }
+    },
+    "docker-run": {
+      "executor": "nx:run-commands",
+      "dependsOn": [
+        "docker-build",
+        "docker-remove"
+      ],
+      "options": {
+        "commands": [
+          "docker-compose up -d static-service"
+        ],
+        "parallel": false
       }
     }
   },

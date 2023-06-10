@@ -1,7 +1,7 @@
 import knex, { Knex } from 'knex';
 import { types } from 'pg';
 import { builtins } from 'pg-types';
-import { pgConfig } from '@myorg/configs';
+import { pgConfig } from '../constants';
 
 // https://github.com/knex/knex/issues/3071#issuecomment-509429039
 // 為了讓select出來的時間都經過iso轉換
