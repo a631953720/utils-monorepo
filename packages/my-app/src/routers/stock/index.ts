@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { GetStocksPayload } from '../../payload';
 import { getStockInfos, postMessage } from '@myorg/basic';
 import { getStockOptions } from '../../app';
+import { jsonParse } from '../../../../../shared/basic/src/model/utils/jsonParse';
 
 const router = Router();
 
@@ -15,7 +16,7 @@ router.get('/:stockID', async (req, res, next) => {
   const { stockID } = req.params;
   const { mock, IDs } = req.query;
   const payload = new GetStocksPayload({
-    IDs: JSON.parse(IDs as string),
+    IDs: jsonParse(IDs) ?? undefined,
   });
 
   if (payload.isError) {
