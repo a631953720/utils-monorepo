@@ -13,8 +13,10 @@ router.get('/options', (_, res) => {
 
 router.get('/:stockID', async (req, res, next) => {
   const { stockID } = req.params;
-  const { mock } = req.query;
-  const payload = new GetStocksPayload(req.body);
+  const { mock, IDs } = req.query;
+  const payload = new GetStocksPayload({
+    IDs: JSON.parse(IDs as string),
+  });
 
   if (payload.isError) {
     return next(payload.errors);

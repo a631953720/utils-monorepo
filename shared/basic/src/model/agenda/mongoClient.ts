@@ -1,5 +1,5 @@
 import { MongoClient, ServerApiVersion } from 'mongodb';
-import { pgConfig } from '../../constant';
+import { pgConfig } from '@myorg/configs';
 
 const { mongoConfig } = pgConfig;
 

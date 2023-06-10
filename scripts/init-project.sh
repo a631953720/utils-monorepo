@@ -3,7 +3,7 @@
 echo "set env"
 
 cd ../shared/basic
-ln -s ../../.env ./.env
+ln -s ../../.development.env ./.development.env
 
 cd ../migrations
-ln -s ../../.env ./.env
+ln -s ../../.development.env ./.development.env

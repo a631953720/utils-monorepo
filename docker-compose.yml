@@ -9,3 +9,5 @@ services:
     command: node ./main.js
     ports:
       - 3000:3000
+    platform: linux/amd64
+    image: a631953720/utils-monorepo-my-app

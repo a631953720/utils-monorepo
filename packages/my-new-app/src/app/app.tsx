@@ -1,44 +1,24 @@
 import styled from 'styled-components';
-
-import NxWelcome from './nx-welcome';
-
 import { Route, Routes, Link } from 'react-router-dom';
+import { Home } from '../components';
+import { getStockOptions, getStockTable } from '../api';
 
 const StyledApp = styled.div`
   // Your style here
 `;
+getStockOptions();
+getStockTable({
+  stockID: 2330,
+  mock: true,
+}).then((r) => {
+  console.log(r.data.data);
+});
 
 export function App() {
   return (
     <StyledApp>
-      <NxWelcome title="my-new-app" />
-
-      {/* START: routes */}
-      {/* These routes and navigation have been generated for you */}
-      {/* Feel free to move and update them to fit your needs */}
-      <br />
-      <hr />
-      <br />
-      <div role="navigation">
-        <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/page-2">Page 2</Link>
-          </li>
-        </ul>
-      </div>
       <Routes>
-        <Route
-          path="/"
-          element={
-            <div>
-              This is the generated root route.{' '}
-              <Link to="/page-2">Click here for page 2.</Link>
-            </div>
-          }
-        />
+        <Route path="/" element={<Home />} />
         <Route
           path="/page-2"
           element={
@@ -48,7 +28,6 @@ export function App() {
           }
         />
       </Routes>
-      {/* END: routes */}
     </StyledApp>
   );
 }

@@ -3,11 +3,12 @@ import { Request, Response } from 'express';
 import stock from './routers';
 import { commonError, notFoundError } from './middleware';
 import { simpleMsg } from '@myorg/winston-logger';
-// import { createMinLoopJob } from '@myorg/basic';
+import * as cors from 'cors';
 
 const app = express();
 
 app.use(express.json());
+app.use(cors());
 
 app.use('/stock', stock);
 app.get('/', (req: Request, res: Response) => {
