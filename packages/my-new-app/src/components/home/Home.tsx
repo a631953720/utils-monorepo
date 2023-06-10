@@ -80,15 +80,11 @@ export const Home = () => {
           name="stockID"
           label="股票編號"
           tooltip={{ title: '目前只支援輸入編號的功能' }}
-          normalize={(v: string) => {
-            if (!v.trim().length) return undefined;
-            return Number.isNaN(+v) ? undefined : +v;
-          }}
           rules={[
             {
               type: 'string',
               validator: (_, v) => {
-                if (isNil(v)) return Promise.reject();
+                if (isNil(v) || v === '') return Promise.reject();
                 if (Number.isNaN(+v)) return Promise.reject();
                 return Promise.resolve();
               },
