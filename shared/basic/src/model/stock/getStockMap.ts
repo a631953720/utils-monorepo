@@ -2,7 +2,7 @@ import axios from 'axios';
 import { getStockTable } from './getStockTable';
 import { html } from './html';
 
-export async function getSource(id: string, isMock?: boolean) {
+export async function getStockMap(id: string, isMock?: boolean) {
   if (isMock) {
     const stockId = `stock_${id}`;
     return getStockTable(html[stockId] ?? html.stock_2330);

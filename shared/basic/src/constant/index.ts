@@ -5,6 +5,10 @@ dotenv.config({
   path: '../../.env',
 });
 
+const lineNotifyConfig = {
+  token: process.env.LINE_NOTIFY_TOKEN,
+};
+
 const mongoConfig = {
   isOnline: process.env.MONGO_DB_ONLINE === 'true', // 可能用不到？
   user: process.env.MONGO_DB_USER ?? '',
@@ -24,6 +28,7 @@ export const pgConfig = {
   database: process.env.POSTGRES_DATABASE ?? '',
   debug: process.env.POSTGRES_DEBUG === 'true',
   mongoConfig,
+  lineNotifyConfig,
 };
 
 // 測試用

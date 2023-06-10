@@ -4,3 +4,5 @@ export * from './model/sample/gameEntity';
 export * from './model/knex';
 export * from './constant';
 export * from './model/agenda';
+export * from './model/line-notify';
+export * from './model/stock';
