@@ -1,1 +1,2 @@
-export * from './getStockMap';
+export * from './getStockInfos';
+export { stockKeyOptions } from './constant';

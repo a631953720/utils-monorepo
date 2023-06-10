@@ -1,20 +1,11 @@
 import * as cheerio from 'cheerio';
 
-function getCheerio(e) {
-  return cheerio.load(e);
-}
-
 type StockResult = {
-  id: number;
   name: string;
   value: string;
 };
 
-export function getStockTable(data: any) {
-  const $ = getCheerio(data);
-  // 在 good info 上第15個 table
-  const table = $('table').get()[14];
-
+export function getStockTable($: cheerio.CheerioAPI, table: cheerio.Element) {
   // 定位元素後重新取得元素陣列並對齊，例如 成交價要對應股價的數字之類的
   const thList = $.load(table)('th').get();
   const findHeadIndex = thList.findIndex((v) => $(v).text().includes('成交價'));
@@ -25,17 +16,15 @@ export function getStockTable(data: any) {
   const tdList = $.load(table)('td').get();
   const d = tdList.map((v) => $(v).text());
 
-  const newTdList = d.splice(4);
+  // 該表格第一個數字通常是成交價
+  const findValueHeadIndex = d.findIndex((v) => !Number.isNaN(Number(v)));
+  const newTdList = d.splice(findValueHeadIndex);
 
-  const result: StockResult[] = [];
+  const map: Map<number, StockResult> = new Map();
 
   for (let i = 0; i < r.length; i++) {
-    result.push({
-      id: i,
-      name: r[i],
-      value: newTdList[i],
-    });
+    map.set(i, { name: r[i], value: newTdList[i] });
   }
 
-  return result;
+  return map;
 }

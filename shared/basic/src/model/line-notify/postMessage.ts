@@ -1,8 +1,16 @@
 import { pgConfig } from '@myorg/basic';
+import { Loggers } from '@myorg/winston-logger';
 
-export function postMessage(message: string) {
+const logger = new Loggers({ type: 'line' });
+
+type Response = {
+  status: number;
+  message: string;
+};
+
+export async function postMessage(message: string) {
   const formData = new URLSearchParams({ message });
-  return fetch('https://notify-api.line.me/api/notify', {
+  const res: Response = await fetch('https://notify-api.line.me/api/notify', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
@@ -11,7 +19,8 @@ export function postMessage(message: string) {
     body: formData,
   })
     .then((resp) => resp.json())
-    .then((result) => {
-      console.log(result);
+    .catch((e) => {
+      logger.error(e);
     });
+  return res;
 }

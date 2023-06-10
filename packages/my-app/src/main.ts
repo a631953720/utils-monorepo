@@ -1,19 +1,21 @@
-import { createMinLoopJob, getStockMap, initAG } from '@myorg/basic';
-import { postMessage } from '@myorg/basic';
+import * as express from 'express';
+import { Request, Response } from 'express';
+import stock from './routers';
+import { commonError, notFoundError } from './middleware';
+import { simpleMsg } from '@myorg/winston-logger';
 
-getStockMap('0056', true).then((data) => {
-  console.log(data);
+const app = express();
+
+app.use(express.json());
+
+app.use('/stock', stock);
+app.get('/', (req: Request, res: Response) => {
+  res.send('Hello, world!');
 });
 
-// initAG().then(async () => {
-//   const result = await createMinLoopJob({
-//     jobName: 'test2',
-//     jobCallback: (d) => {
-//       console.log(d);
-//     },
-//     mins: '15',
-//   });
-//
-//   console.log(result);
-//   postMessage('排成初始化完成');
-// });
+app.use(notFoundError);
+app.use(commonError);
+
+app.listen(3000, () => {
+  simpleMsg('Server is running on port 3000');
+});
