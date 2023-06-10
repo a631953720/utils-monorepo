@@ -11,7 +11,8 @@
         "outputPath": "node_modules/@myorg/basic",
         "main": "shared/basic/src/index.ts",
         "tsConfig": "shared/basic/tsconfig.lib.json",
-        "assets": ["shared/basic/*.md"]
+        "assets": ["shared/basic/*.md"],
+        "generatePackageJson": true
       }
     },
     "lint": {

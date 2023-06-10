@@ -61,13 +61,20 @@
       "dependsOn": ["build", "^build"],
       "inputs": ["production", "^production"],
       "options": {
-        "command": "docker build -f ./packages/my-app/Dockerfile . -t my-app"
+        "commands": [
+          "docker-compose build my-app"
+        ],
+        "parallel": false
       }
     },
     "docker-remove": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "docker rm -f my-app"
+        "commands": [
+          "docker-compose stop my-app",
+          "docker-compose rm my-app -f"
+        ],
+        "parallel": false
       }
     },
     "docker-run": {
@@ -77,7 +84,7 @@
         "docker-remove"
       ],
       "options": {
-        "command": "docker run -idt --name my-app -p 4444:3333 my-app"
+        "command": "docker-compose up -d my-app"
       }
     }
   },

@@ -11,7 +11,8 @@
         "outputPath": "node_modules/@myorg/winston-logger",
         "main": "shared/winston-logger/src/index.ts",
         "tsConfig": "shared/winston-logger/tsconfig.lib.json",
-        "assets": ["shared/winston-logger/*.md"]
+        "assets": ["shared/winston-logger/*.md"],
+        "generatePackageJson": true
       }
     },
     "lint": {

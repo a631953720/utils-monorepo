@@ -3,6 +3,7 @@ import { Request, Response } from 'express';
 import stock from './routers';
 import { commonError, notFoundError } from './middleware';
 import { simpleMsg } from '@myorg/winston-logger';
+// import { createMinLoopJob } from '@myorg/basic';
 
 const app = express();
 
@@ -19,3 +20,13 @@ app.use(commonError);
 app.listen(3000, () => {
   simpleMsg('Server is running on port 3000');
 });
+
+// createMinLoopJob({
+//   jobName: 'echo',
+//   jobCallback: () => {
+//     console.log('echo');
+//   },
+//   mins: '40',
+// }).then(() => {
+//   simpleMsg('create job success');
+// });

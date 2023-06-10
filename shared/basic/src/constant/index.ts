@@ -32,4 +32,4 @@ export const pgConfig = {
 };
 
 // 測試用
-// console.log(pgConfig);
+console.log(pgConfig);
