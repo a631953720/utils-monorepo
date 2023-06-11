@@ -95,7 +95,6 @@ router.get('/job/schedule', async (req, res) => {
       id: d._id.toString(),
     };
   });
-  console.log(data);
   res.status(200).json({
     data: result,
   });
@@ -103,7 +102,7 @@ router.get('/job/schedule', async (req, res) => {
 
 router.post('/job/schedule', async (req, res, _next) => {
   const data = new SetStockSchedulePayload(req.body);
-
+  console.log(req.body);
   if (data.isError)
     return res.status(400).json({
       errorMessage: data.errors.join(','),

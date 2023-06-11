@@ -6,7 +6,7 @@ import { pgConfig } from '../constants';
 // https://github.com/knex/knex/issues/3071#issuecomment-509429039
 // 為了讓select出來的時間都經過iso轉換
 // todo: 測試不同時區的影響
-const parseFn = (val) => {
+const parseFn = (val: any) => {
   return val === null ? null : new Date(val).toISOString();
 };
 types.setTypeParser(builtins.TIMESTAMPTZ, parseFn);

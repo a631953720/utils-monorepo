@@ -3,8 +3,7 @@ import axios from 'axios';
 
 export async function getWebResource(id: string, isMock?: boolean) {
   if (isMock) {
-    const stockId = `stock_${id}`;
-    return html[stockId] ?? html.stock_2330;
+    return Math.random() > 0.5 ? html.stock_2330 : html.stock_0056;
   } else {
     const url = `https://goodinfo.tw/tw/StockDetail.asp?STOCK_ID=${id}`;
     const response = await axios.get(url, {

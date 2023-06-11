@@ -16,6 +16,7 @@ import {
   StockInfo,
 } from '../../api';
 import { isNil } from 'lodash';
+import { Link, useNavigate } from 'react-router-dom';
 
 type FormValue = {
   IDs?: number[];
@@ -29,6 +30,8 @@ export const Home = () => {
   // const [dataSource, setDataSource] = useState<string[]>([]);
   // const [stockName, setStockName] = useState('');
   const [tableData, setTableData] = useState<StockInfo>();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     (async () => {
@@ -66,6 +69,9 @@ export const Home = () => {
   if (!fetched) return <div>loading...</div>;
   return (
     <div style={{ width: 500 }}>
+      <div style={{ marginBottom: 10 }}>
+        <Link to="/schedule">點我跳轉到排成設定頁面</Link>
+      </div>
       <Form
         form={form}
         initialValues={initValue}
