@@ -1,8 +1,15 @@
 import { Router } from 'express';
 import { GetStocksPayload } from '../../payload';
-import { getStockInfos, postMessage } from '@myorg/basic';
+import {
+  getAllAgendaJobs,
+  getStockInfos,
+  jsonParse,
+  postMessage,
+} from '@myorg/basic';
 import { getStockOptions } from '../../app';
-import { jsonParse } from '../../../../../shared/basic/src/model/utils/jsonParse';
+import { formatLineMsg } from '../../utils';
+import { SetStockSchedulePayload } from '../../payload/stock/setStockSchedulePayload';
+import { setSchedule } from '../../app/schedule';
 
 const router = Router();
 
@@ -63,15 +70,9 @@ router.post('/line/:stockID', async (req, res, next) => {
   const { stockID } = req.params;
   const { mock } = req.query;
 
-  const { stockMap, stockName } = await getStockInfos(stockID, mock === 'true');
+  const data = await getStockInfos(stockID, mock === 'true');
 
-  // format data;
-  const formatString: string[] = [`\n股票名稱: ${stockName}`];
-  stockMap.forEach(({ name, value }) => {
-    formatString.push(`${name}: ${value}`);
-  });
-
-  const { status: lineStatus } = await postMessage(formatString.join('\n'));
+  const { status: lineStatus } = await postMessage(formatLineMsg(data));
 
   if (lineStatus !== 200) {
     // TODO: add common error class
@@ -81,6 +82,41 @@ router.post('/line/:stockID', async (req, res, next) => {
   }
 
   res.status(200).json({
+    msg: 'ok',
+  });
+});
+
+router.get('/job/schedule', async (req, res) => {
+  const data = await (await getAllAgendaJobs()).toArray();
+
+  const result = data.map((d) => {
+    return {
+      ...d.data,
+      id: d._id.toString(),
+    };
+  });
+  console.log(data);
+  res.status(200).json({
+    data: result,
+  });
+});
+
+router.post('/job/schedule', async (req, res, _next) => {
+  const data = new SetStockSchedulePayload(req.body);
+
+  if (data.isError)
+    return res.status(400).json({
+      errorMessage: data.errors.join(','),
+    });
+
+  const { isSuccess, errorMessage } = await setSchedule(data);
+
+  if (!isSuccess)
+    return res.status(500).json({
+      errorMessage,
+    });
+
+  return res.status(200).json({
     msg: 'ok',
   });
 });

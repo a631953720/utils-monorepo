@@ -7,7 +7,7 @@ export function getStockName(
 ): string {
   const aList = $.load(table)('a').get();
 
-  const findName = aList.find((v) => $(v).text().includes(id));
+  const findName = aList.find((v) => $(v).text().includes(`${id}`));
 
   return $(findName).text() || `${id}`;
 }

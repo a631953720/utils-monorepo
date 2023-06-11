@@ -1,9 +1,5 @@
 import * as cheerio from 'cheerio';
-
-type StockResult = {
-  name: string;
-  value: string;
-};
+import { StockResult } from './interface';
 
 export function getStockTable($: cheerio.CheerioAPI, table: cheerio.Element) {
   // 定位元素後重新取得元素陣列並對齊，例如 成交價要對應股價的數字之類的

@@ -18,7 +18,7 @@ export async function initAG() {
   // agenda.define('delete old users', (job, done) => {});
 
   // 危險操作，沒被定義的job都會刪除
-  await agenda.purge();
+  // await agenda.purge();
 
   // 預設最多20個工作
   agenda.maxConcurrency(500);

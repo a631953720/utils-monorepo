@@ -4,7 +4,7 @@ import stock from './routers';
 import { commonError, notFoundError } from './middleware';
 import { simpleMsg } from '@myorg/winston-logger';
 import * as cors from 'cors';
-import { getStockInfos } from '@myorg/basic';
+import { initAG } from '@myorg/basic';
 
 const app = express();
 
@@ -19,8 +19,10 @@ app.get('/', (req: Request, res: Response) => {
 app.use(notFoundError);
 app.use(commonError);
 
-app.listen(3000, () => {
-  simpleMsg('Server is running on port 3000');
+initAG().then(() => {
+  app.listen(3000, () => {
+    simpleMsg('Server is running on port 3000');
+  });
 });
 
 // createMinLoopJob({
