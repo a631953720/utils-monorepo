@@ -34,6 +34,7 @@ export interface Stock {
 export interface StockInfo {
   data: Stock[];
   name: string;
+  lastUpdateTime: string;
 }
 
 export const getStockTable = ({

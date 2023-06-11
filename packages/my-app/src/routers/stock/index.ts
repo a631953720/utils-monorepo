@@ -23,7 +23,10 @@ router.get('/:stockID', async (req, res, next) => {
     return next(payload.errors);
   }
 
-  const { stockName, stockMap } = await getStockInfos(stockID, mock === 'true');
+  const { stockName, stockMap, lastUpdateTime } = await getStockInfos(
+    stockID,
+    mock === 'true'
+  );
 
   const result: {
     name: string;
@@ -52,6 +55,7 @@ router.get('/:stockID', async (req, res, next) => {
   res.status(200).json({
     name: stockName,
     data: result,
+    lastUpdateTime,
   });
 });
 

@@ -12,6 +12,7 @@ services:
       - 3000:3000
     platform: linux/amd64
     image: a631953720/utils-monorepo-my-app
+    restart: always
   static-service:
       container_name: static-service
       build:
@@ -25,3 +26,4 @@ services:
       platform: linux/amd64
 #      network_mode: host
       image: a631953720/utils-monorepo-static-service
+      restart: always

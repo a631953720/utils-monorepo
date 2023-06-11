@@ -4,6 +4,7 @@ import stock from './routers';
 import { commonError, notFoundError } from './middleware';
 import { simpleMsg } from '@myorg/winston-logger';
 import * as cors from 'cors';
+import { getStockInfos } from '@myorg/basic';
 
 const app = express();
 

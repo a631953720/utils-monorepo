@@ -32,6 +32,7 @@
     },
     "serve": {
       "executor": "@nrwl/js:node",
+      "dependsOn": ["build", "^build"],
       "options": {
         "buildTarget": "my-app:build"
       },

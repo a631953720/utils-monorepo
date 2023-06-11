@@ -9,7 +9,12 @@ import {
   Divider,
   List,
 } from 'antd';
-import { getStockOptions, getStockTable, KeyOption } from '../../api';
+import {
+  getStockOptions,
+  getStockTable,
+  KeyOption,
+  StockInfo,
+} from '../../api';
 import { isNil } from 'lodash';
 
 type FormValue = {
@@ -21,8 +26,9 @@ type FormValue = {
 export const Home = () => {
   const [options, setOptions] = useState<KeyOption[]>([]);
   const [fetched, setFetched] = useState(false);
-  const [dataSource, setDataSource] = useState<string[]>([]);
-  const [stockName, setStockName] = useState('');
+  // const [dataSource, setDataSource] = useState<string[]>([]);
+  // const [stockName, setStockName] = useState('');
+  const [tableData, setTableData] = useState<StockInfo>();
 
   useEffect(() => {
     (async () => {
@@ -46,8 +52,7 @@ export const Home = () => {
       },
     });
 
-    setDataSource(data.data.data.map((v) => `${v.name}: ${v.value}`));
-    setStockName(data.data.name);
+    setTableData(data.data);
   };
 
   const initValue: FormValue = {
@@ -104,11 +109,15 @@ export const Home = () => {
         </Form.Item>
       </Form>
       <Divider orientation="left">股票資訊</Divider>
-      {stockName ? (
+      {tableData ? (
         <List
-          header={<Typography.Text mark>{stockName}</Typography.Text>}
+          header={
+            <Typography.Text mark>
+              {tableData.name}({tableData.lastUpdateTime})
+            </Typography.Text>
+          }
           bordered
-          dataSource={dataSource}
+          dataSource={tableData.data.map((v) => `${v.name}: ${v.value}`)}
           renderItem={(item) => <List.Item>{item}</List.Item>}
         />
       ) : (
