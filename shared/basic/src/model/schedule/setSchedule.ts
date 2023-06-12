@@ -1,7 +1,8 @@
 import { ScheduleOptions } from './interface';
-import { createDailyJob, getStockInfos, postMessage } from '@myorg/basic';
-import { formatLineMsg } from '../../utils';
+import { formatLineMsg } from '../utils';
 import { simpleMsg } from '@myorg/winston-logger';
+import { createDailyJob } from '../agenda';
+import { getStockInfos } from '../stock';
 
 // type 目前只支援日排程
 export async function setSchedule({

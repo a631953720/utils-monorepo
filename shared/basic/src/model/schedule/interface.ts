@@ -1,4 +1,4 @@
-import { DailyJobParams } from '@myorg/basic';
+import { DailyJobParams } from '../agenda';
 
 export interface ScheduleOptions {
   type: 'daily';
