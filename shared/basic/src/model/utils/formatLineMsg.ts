@@ -1,4 +1,4 @@
-import { StockInfos } from '@myorg/basic';
+import { StockInfos } from '../stock';
 
 export function formatLineMsg({
   stockName,

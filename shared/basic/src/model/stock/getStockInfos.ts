@@ -3,6 +3,12 @@ import * as cheerio from 'cheerio';
 import { getWebResource } from './getWebResource';
 import { getStockName } from './getStockName';
 import { getLastUpdateTime } from './getLastUpdateTime';
+import { Loggers } from '@myorg/winston-logger';
+
+const loggers = new Loggers({
+  type: 'getStockInfos',
+  isDebug: true,
+});
 
 function getTableAndCheerio(data: any) {
   const $ = cheerio.load(data);
@@ -15,6 +21,8 @@ function getTableAndCheerio(data: any) {
 
 export async function getStockInfos(id: string, isMock?: boolean) {
   const html = await getWebResource(id, isMock);
+  loggers.debug(html);
+
   const { $, table } = getTableAndCheerio(html);
 
   const stockMap = getStockTable($, table);

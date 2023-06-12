@@ -1,8 +1,5 @@
 import { ScheduleOptions } from './interface';
-import { formatLineMsg } from '../utils';
-import { simpleMsg } from '@myorg/winston-logger';
 import { createDailyJob } from '../agenda';
-import { getStockInfos } from '../stock';
 import { scheduleEvent } from './scheduleEvent';
 
 // type 目前只支援日排程
@@ -16,7 +13,7 @@ export async function setSchedule({
   const date = new Date(dailyTime);
   const result = await createDailyJob({
     jobName: `schedule-notify-${spliceIDs.join('-')}`,
-    jobCallback: () => scheduleEvent(IDs, mock),
+    jobCallback: () => scheduleEvent(spliceIDs, mock),
     mins: date.getMinutes().toString(),
     hours: date.getHours().toString(),
     data: {
