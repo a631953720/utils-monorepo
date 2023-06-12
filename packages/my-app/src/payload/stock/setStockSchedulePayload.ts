@@ -5,7 +5,7 @@ export class SetStockSchedulePayload {
   public errors: string[];
   public isError: boolean;
   public IDs: string[];
-  public dailyTime: Pick<DailyJobParams, 'mins' | 'hours'>;
+  public dailyTime: string;
   public type: 'daily';
   public mock: boolean;
   constructor(data: any) {
@@ -13,11 +13,7 @@ export class SetStockSchedulePayload {
     this.errors = [];
     this.type = 'daily';
 
-    const date = new Date(data.dailyTime);
-    this.dailyTime = {
-      mins: date.getMinutes().toString(),
-      hours: date.getHours().toString(),
-    };
+    this.dailyTime = new Date(data.dailyTime).toISOString();
     this.mock = data.mock ?? false;
 
     this.validate();

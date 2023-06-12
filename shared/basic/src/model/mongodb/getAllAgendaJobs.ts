@@ -1,5 +1,5 @@
 import { getMongoInstance } from './mongoClient';
-import { agendaConfigs, DailyJobParams } from '../agenda';
+import { agendaConfigs } from '../agenda';
 
 export async function getAllAgendaJobs() {
   const client = getMongoInstance();
@@ -10,10 +10,11 @@ export async function getAllAgendaJobs() {
     .collection<{
       data: {
         IDs: string[];
-        cycleTime: Pick<DailyJobParams, 'mins' | 'hours'>;
+        cycleTime: string;
         type: 'daily';
         // TODO: 未來記得改掉
         user: string;
+        mock?: boolean;
       };
     }>(agendaConfigs.collection)
     .find();

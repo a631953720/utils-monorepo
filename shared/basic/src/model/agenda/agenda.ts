@@ -1,6 +1,7 @@
 import { Agenda } from 'agenda';
 import { pgConfig } from '../constants';
 import { Loggers } from '@myorg/winston-logger';
+import { initScheduleJobs } from '../schedule/initScheduleJobs';
 
 const loggers = new Loggers({
   type: 'init agent',
@@ -38,6 +39,7 @@ export async function initAG() {
     agenda.name(`kk-${process.pid}`);
 
     // init all jobs
+    await initScheduleJobs();
   } catch {
     setTimeout(() => {
       loggers.error('init agent error. will retry after 5 s');
