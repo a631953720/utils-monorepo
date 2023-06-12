@@ -57,7 +57,7 @@ export const getStockTable = ({
 
 export interface StockSchedule {
   IDs: string[];
-  cycleTime: Pick<DailyJobParams, 'mins' | 'hours'>;
+  cycleTime: string;
   type: 'daily';
   // TODO: 記得改掉
   user: string;

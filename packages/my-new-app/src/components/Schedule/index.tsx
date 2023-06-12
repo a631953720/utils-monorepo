@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { getStockSchedule, setStockSchedule, StockSchedule } from '../../api';
 import { Button, Divider, Form, Table, TimePicker } from 'antd';
-import dayjs from 'dayjs';
 import TextArea from 'antd/es/input/TextArea';
+import { dayjs, TZ } from '../../utils';
 
 const columns = [
   {
@@ -58,7 +58,9 @@ export const Schedule = () => {
   const handleFinish = (formValue: FormValue) => {
     setStockSchedule({
       IDs: formValue.stockIDs,
-      dailyTime: dayjs(formValue.dailyTime).toISOString(),
+      dailyTime: dayjs(formValue.dailyTime)
+        .tz('America/New_York')
+        .toISOString(),
     })
       .then(() => {
         alert('新增成功');
@@ -105,12 +107,15 @@ export const Schedule = () => {
       <Divider />
       <Table
         columns={columns}
-        dataSource={dataSource.map((d, index) => ({
-          ...d,
-          index: index + 1,
-          cycleTime: `每天${d.cycleTime.hours}時${d.cycleTime.mins}分`,
-          stockIDs: d.IDs.join(','),
-        }))}
+        dataSource={dataSource.map((d, index) => {
+          const data = dayjs(d.cycleTime).tz(TZ);
+          return {
+            ...d,
+            index: index + 1,
+            cycleTime: `每天${data.get('hours')}時${data.get('minute')}分`,
+            stockIDs: d.IDs.join(','),
+          };
+        })}
       />
     </div>
   );
