@@ -1,0 +1,13 @@
+---
+
+- name: Test
+  hosts: kk_ec2
+  become: yes
+  gather_facts: yes
+  remote_user: ubuntu
+  roles:
+    - docker
+  tasks:
+    - name: ping
+      shell: |
+        echo success

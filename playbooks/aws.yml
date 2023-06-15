@@ -1,0 +1,20 @@
+---
+
+- name: Test
+  hosts: localhost
+#  become: yes
+  gather_facts: yes
+  tasks:
+    # need aws cli configure
+    - name: Provision an EC2 instance with a public IP address
+      amazon.aws.ec2_instance:
+        name: Demo
+        vpc_subnet_id: subnet-123
+        instance_type: t2.micro
+        security_group: sg-123
+        network:
+          assign_public_ip: true
+        image_id: ami-123
+        tags:
+          Environment: Testing
+      register: result
