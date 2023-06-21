@@ -24,13 +24,3 @@ initAG().then(() => {
     simpleMsg('Server is running on port 3000');
   });
 });
-
-// createMinLoopJob({
-//   jobName: 'echo',
-//   jobCallback: () => {
-//     console.log('echo');
-//   },
-//   mins: '40',
-// }).then(() => {
-//   simpleMsg('create job success');
-// });
