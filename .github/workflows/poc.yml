@@ -1,10 +1,18 @@
 name: POC
 on:
   push:
-    tags-ignore:
-      - '**'
+    branches:
+      - main
 jobs:
   basic:
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v3
+      
+      - name: Run Shell Script
+        run: |
+          #!/bin/bash
+          echo "Hello, world!"
+          echo "This is a shell script running on GitHub Actions."
+          docker-compose version
+          # Add your shell script commands here
