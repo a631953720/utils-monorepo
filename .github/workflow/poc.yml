@@ -1,0 +1,11 @@
+name: POC
+on:
+  push:
+    tags-ignore:
+      - '**'
+jobs:
+  basic:
+    runs-on:
+      - self-hosted
+    steps:
+      - uses: actions/checkout@v3
